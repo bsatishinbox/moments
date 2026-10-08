@@ -17,7 +17,7 @@ jobs:
   apple:
     name: iPhone and Apple Watch
     runs-on: macos-26
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - name: Inspect selected Xcode
@@ -43,9 +43,10 @@ jobs:
           -derivedDataPath build/watch
           CODE_SIGNING_ALLOWED=NO build
       - name: Verify iPhone and Watch simulator installation
-        timeout-minutes: 10
+        timeout-minutes: 25
         run: python3 native/apple/check-simulator-install.py
       - name: Preserve simulator builds
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: apple-simulator-builds

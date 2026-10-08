@@ -41,7 +41,7 @@ for platform, name_prefix, app in [
         bundle_id = plistlib.load(file)["CFBundleIdentifier"]
     print(f"Installing {app} on {device['name']} / {version}", flush=True)
     try:
-        simctl("bootstatus", udid, "-b", timeout=240)
+        simctl("bootstatus", udid, "-b", timeout=600)
         simctl("install", udid, app.resolve())
         simctl("get_app_container", udid, bundle_id, "app")
         simctl("launch", udid, bundle_id)

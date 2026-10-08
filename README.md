@@ -6,9 +6,9 @@ A simple life countdown for iPhone, iPad, Android, and Apple Watch. Starts at ag
 
 | Platform | Implementation | Status |
 | --- | --- | --- |
-| iPhone / iPad | Native SwiftUI | Source, icon, privacy manifest, and XcodeGen specification provided; not compiled or signed here |
-| Apple Watch | Native SwiftUI watchOS app | Source and paired iPhone settings sync provided; not tested on a watch here |
-| Android | Native Kotlin / Jetpack Compose | Gradle project, wrapper, adaptive icon, and model tests provided; not compiled or signed here |
+| iPhone / iPad | Native SwiftUI | Simulator build and model tests passed in GitHub Actions; distribution signing pending |
+| Apple Watch | Native SwiftUI watchOS app | Simulator build passed in GitHub Actions; physical watch and sync testing pending |
+| Android | Native Kotlin / Jetpack Compose | Model tests and debug APK build passed in GitHub Actions; release signing pending |
 
 The interactive [web preview](https://moment-life-counter.satish5.chatgpt.site) is published separately. It is not a store build. Native apps run locally without a server or account. There is no cloud synchronization between Android, web, and Apple devices. A paired iPhone and Apple Watch exchange the latest settings through WatchConnectivity.
 
@@ -40,7 +40,7 @@ The proposed identifiers are `io.github.bsatishinbox.moment` and `io.github.bsat
 
 Run the **Moment** scheme for iPhone and the **MomentWatch** scheme for Apple Watch. Use a paired simulator or physical iPhone and Apple Watch to test synchronization. The watch can also configure its own age and milestone without first opening the phone app.
 
-The iOS target embeds the watch app. Create an archive using a generic iOS device destination, then validate and distribute it through Xcode Organizer. Inspect the archive to confirm the watch app is embedded before uploading. Native compilation, archive validation, and store upload have not been performed in this environment.
+The iOS target embeds the watch app. Create an archive using a generic iOS device destination, then validate and distribute it through Xcode Organizer. Inspect the archive to confirm the watch app is embedded before uploading. Native simulator compilation passed in GitHub Actions. Signed archive validation and store upload are still pending.
 
 Pure Swift model tests:
 
@@ -62,7 +62,7 @@ The Android package is `io.github.bsatishinbox.moment`; confirm availability in 
 
 ## What still needs to happen before store release
 
-1. Compile both projects with their platform SDKs. Resolve any SDK or signing issues and run the supplied native model tests.
+1. Keep Native build checks passing for the release source and resolve distribution-signing issues.
 2. Test on iPhone, Android, and Apple Watch: save/relaunch; 60 → 70; exact birthday; invalid input; small screens; large text; VoiceOver/TalkBack; background/resume; offline operation; and watch pairing/reconnection.
 3. Choose the final app name and owned bundle/package identifiers. Check name availability in the stores.
 4. Use your Apple Developer and Google Play Console accounts, set signing, and create the store records.
@@ -79,7 +79,8 @@ The app stores the chosen age/birthday, target date, and selected unit in local 
 
 - The separately published web version passed eight countdown model tests and DOM interaction checks for settings, target presets, persistence, unit selection, invalid values, and the optional agent action.
 - Android resource XML and the Apple privacy plist parsed successfully. XcodeGen source paths were checked.
-- Native tests are provided but were not run here: the environment has no Xcode, Swift compiler, Android SDK, simulator, or connected devices.
+- [GitHub Actions run 2](https://github.com/bsatishinbox/moments/actions/runs/37724412330) passed six Swift model tests, both Apple simulator builds, Android unit tests, and the Android debug APK build. Its added simulator installation check timed out during the runner's first iPhone boot, before app installation. The timeout has been increased; see the latest workflow for installation results.
+- The local editing environment has no native SDKs or connected devices; native build results come from GitHub Actions.
 - A real browser visual check was unavailable. DOM simulation does not validate native layout, native compilation, accessibility rendering, store compliance, or watch connectivity.
 
 ## Implementation references
