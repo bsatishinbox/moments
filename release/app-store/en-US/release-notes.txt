@@ -1,0 +1,1 @@
+The first version of Moment: a simple countdown in days, hours, and minutes, with editable milestones and an Apple Watch companion.

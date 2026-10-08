@@ -1,0 +1,11 @@
+See your time in perspective.
+
+Moment is a simple countdown to a personal age milestone. Enter your age, choose the age you want to count toward, and see the time ahead in total days, hours, or minutes.
+
+• Choose your own target age and change it whenever you like.
+• Add your birthday for an exact calendar countdown.
+• Switch between days, hours, and minutes with a tap.
+• Keep your timeline on your device, with no account required.
+• Check your countdown on Apple Watch, with settings that sync with your paired iPhone when available.
+
+Moment uses the dates you choose. It does not predict your lifespan or provide medical advice.

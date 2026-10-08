@@ -1,0 +1,75 @@
+name: Native build checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apple:
+    name: iPhone and Apple Watch
+    runs-on: macos-26
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect selected Xcode
+        run: xcodebuild -version
+      - name: Install project generator
+        run: brew install xcodegen
+      - name: Test countdown model
+        run: swift test --package-path native/apple
+      - name: Generate native projects
+        run: sh native/apple/generate-project.sh
+      - name: Build iPhone simulator app
+        run: >-
+          xcodebuild -project native/apple/Moment.xcodeproj
+          -scheme Moment -configuration Debug
+          -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath build/apple
+          CODE_SIGNING_ALLOWED=NO build
+      - name: Build Apple Watch simulator app
+        run: >-
+          xcodebuild -project native/apple/Moment.xcodeproj
+          -scheme MomentWatch -configuration Debug
+          -destination 'generic/platform=watchOS Simulator'
+          -derivedDataPath build/watch
+          CODE_SIGNING_ALLOWED=NO build
+      - name: Preserve simulator builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: apple-simulator-builds
+          path: |
+            build/apple/Build/Products/Debug-iphonesimulator/*.app
+            build/watch/Build/Products/Debug-watchsimulator/*.app
+          retention-days: 7
+          if-no-files-found: error
+
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Android SDK packages
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Test and build Android app
+        working-directory: native/android
+        run: ./gradlew --no-daemon testDebugUnitTest assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-debug-apk
+          path: native/android/app/build/outputs/apk/debug/*.apk
+          retention-days: 7
+          if-no-files-found: error

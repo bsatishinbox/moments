@@ -1,0 +1,11 @@
+Moment includes the Gradle wrapper from Gradle v8.11.1.
+Copyright Gradle, Inc. and contributors.
+Licensed under the Apache License, Version 2.0.
+https://www.apache.org/licenses/LICENSE-2.0
+Source: https://github.com/gradle/gradle/tree/v8.11.1
+
+Apple platforms use the system SwiftUI, Foundation, Combine, WatchConnectivity,
+and OSLog frameworks. Android dependencies and their versions are listed in
+native/android/app/build.gradle.kts and native/android/build.gradle.kts.
+Their respective licenses apply. No dependency caches or signing credentials
+are included in this package.
