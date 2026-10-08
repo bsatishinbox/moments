@@ -18,6 +18,8 @@ The code is prepared with the proposed identifiers. They have not been registere
 - GitHub Actions workflow to compile both simulator apps and run model tests.
 - Android test/build job and downloadable debug APK once the workflow runs.
 - Draft App Store name, subtitle, description, keywords, and release notes in `release/app-store/en-US/`.
+- Public privacy-policy URL: https://github.com/bsatishinbox/moments/blob/main/release/privacy-policy.md
+- Public support URL: https://github.com/bsatishinbox/moments/blob/main/release/support.md
 
 See [Native build checks](https://github.com/bsatishinbox/moments/actions/workflows/native-checks.yml) for the latest build results and artifacts. A passing simulator build is a compilation check, not device testing or a signed store build.
 
